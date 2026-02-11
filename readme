@@ -1,3 +1,136 @@
-This project is an e-RFI (Electronic Request for Investment) system developed to manage the investment request and approval process at PT TACI. The system supports end-to-end investment management, including RFI and ICR submission, multi-level approval workflows, budget planning and revisions, and progress tracking from approval to go-live. It integrates with enterprise systems such as EPS, OMS, and CIGMA to enable budget control, actual vs plan monitoring, and asset tracking. Built using CodeIgniter 3 with Microsoft SQL Server and MVC architecture, the system improves transparency, approval efficiency, and governance of corporate investment processes.
+Create a fullstack Task Manager project using:
 
-e-RFI - Electronic Request for Investment System at PT. TACI
+Frontend: Next.js (App Router)
+Backend: Go serverless function for Vercel
+Styling: Tailwind CSS
+Database: In-memory array
+
+The project must be deployable to Vercel directly.
+
+====================================
+BACKEND REQUIREMENTS (Go)
+====================================
+
+File location: /api/tasks.go
+
+1. Create struct:
+
+type Task struct {
+    ID        int       `json:"id"`
+    Title     string    `json:"title"`
+    Status    string    `json:"status"`
+    CreatedAt time.Time `json:"created_at"`
+}
+
+2. Use:
+- auto increment ID
+- in-memory slice
+
+3. Implement endpoints:
+
+GET /api/tasks
+- Return all tasks
+- Support optional filter:
+  /api/tasks?status=Pending
+
+POST /api/tasks
+- Create new task
+- Validate empty title
+- Default status = "Pending"
+- Return 201
+
+PUT /api/tasks?id=1
+- Update task status
+- Return 404 if not found
+
+DELETE /api/tasks?id=1
+- Delete task
+- Return 404 if not found
+
+4. Add:
+- CORS headers
+- JSON responses
+- 405 for invalid methods
+- Proper error handling
+
+====================================
+FRONTEND REQUIREMENTS (Next.js App Router)
+====================================
+
+1. Create app/page.tsx
+
+UI Requirements:
+
+- Page title: Task Manager
+- Form input for new task
+- Submit button
+- Dropdown filter by status:
+  - All
+  - Pending
+  - In Progress
+  - Done
+- Task list card layout
+- Status badge color:
+  - Pending = yellow
+  - In Progress = blue
+  - Done = green
+- Update status button
+- Delete button
+
+2. Must implement:
+
+- useEffect to load tasks
+- useState for state management
+- Loading state (show spinner or text)
+- Error handling UI (show red alert box)
+- Confirmation dialog before delete
+- Disable button while loading
+
+3. Use fetch() for API calls.
+
+4. Clean responsive layout using Tailwind CSS.
+No external UI libraries.
+
+====================================
+TAILWIND SETUP
+====================================
+
+- Configure Tailwind properly for Next.js
+- Use modern minimal clean dashboard style
+- Center container
+- Card shadow
+- Rounded corners
+- Smooth hover transitions
+
+====================================
+VERCEL CONFIG
+====================================
+
+Add vercel.json:
+
+{
+  "functions": {
+    "api/*.go": {
+      "runtime": "vercel-go@3.0.0"
+    }
+  }
+}
+
+====================================
+GO MODULE
+====================================
+
+Create go.mod compatible with Go 1.22
+
+====================================
+IMPORTANT
+====================================
+
+- Code must be clean and production structured
+- Separate handler logic into functions
+- No external database
+- Ensure project runs after:
+  npm install
+  vercel
+
+Generate full project structure with all files.
